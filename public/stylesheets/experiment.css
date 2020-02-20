@@ -1,0 +1,219 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.editor,
+.result-iframe {
+    position: relative;
+
+    float: left;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    width: 50%;
+
+    /* background-color: #888; */
+}
+
+.editor>textarea {
+    display: none;
+}
+
+.css-editor,
+.html-editor {
+    min-height: 180px;
+    height: 200px;
+}
+
+.js-editor,
+.result-iframe {
+    min-height: 500px;
+}
+
+.html-editor,
+.result-iframe {
+    padding-left: 5px;
+}
+
+.js-editor,
+.css-editor {
+    padding-right: 5px;
+}
+
+/* TODO: 实验栏目样式 */
+.experiment-aside,
+.console-aside {
+    position: absolute;
+    top: 110px;
+    left: 0;
+
+    width: 15%;
+    box-sizing: border-box;
+    height: 710px;
+
+    background-color: #e3e3e3;
+}
+
+.experiment-item {
+    display: block;
+
+    background-color: cornflowerblue;
+    color: #fff;
+
+    text-align: center;
+    margin-bottom: 3px;
+}
+
+/* TODO: 树样式设置 */
+.experiment-tree {
+    display: block;
+    margin-top: 20px !important;
+}
+
+.experiment-tool {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}
+
+.console-aside {
+    left: unset;
+    right: 0;
+
+    overflow: hidden;
+}
+
+.console-btn-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 20px;
+}
+
+.console-btn,
+.console-btn-group>input {
+    border-radius: 5px;
+    border: 1px solid #fff;
+    margin: 0;
+    width: 50px;
+    background: #2c2c2c;
+    color: #fff;
+}
+
+.console-btn:focus,
+.console-btn-group>input {
+    outline: none;
+}
+
+.console-btn:hover {
+    background: #fff;
+    color: #2c2c2c;
+    border-color: #2c2c2c;
+    cursor: pointer;
+}
+
+.console-btn.active {
+    background: red;
+    color: #fff;
+}
+
+.console-history {
+    box-sizing: border-box;
+    width: 100%;
+    height: calc(100% - 20px);
+    padding: 20px 0;
+
+    overflow: auto;
+}
+
+.console-input {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 20px;
+}
+
+.console-row {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    height: 20px;
+}
+
+.console-input>input {
+    display: inline-block;
+    box-sizing: border-box;
+    border: none;
+    width: calc(100% - 17px);
+    background-color: transparent;
+}
+
+.console-input>input:focus {
+    outline: none;
+}
+
+
+.CodeMirror-vscrollbar:focus {
+    outline: none;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.CodeMirror-vscrollbar::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #555;
+}
+
+#resultIframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #fff;
+}
+
+#themeSelect {
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    border-radius: 5px;
+    width: 80px;
+    height: 20px;
+    z-index: 10;
+}
+
+#themeSelect:focus {
+    outline: none;
+}
+
+@media only screen and (max-width: 960px) {
+    .css-editor, .html-editor, .js-editor{
+        height: 200px;
+        padding: 0;
+        margin-bottom: 10px;
+    }
+    .editor, .result-iframe{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+    .experiment-aside, .console-aside{
+        display: none;
+        width: 220px;
+        z-index: 10;
+        height: calc(100% - 110px);
+    }
+}

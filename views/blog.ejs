@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title><%= article.title %></title>
+    <link rel='stylesheet' href='/stylesheets/marked-github.css'/>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/highlight.js/9.15.10/styles/github.min.css">
+    <link rel='stylesheet' href='/stylesheets/index.css'/>
+    <link rel='stylesheet' href='/stylesheets/widget.css'/>
+    <!-- <link href="http://cdn.bootcss.com/highlight.js/8.0/styles/monokai_sublime.min.css" rel="stylesheet"> -->
+    <link rel='stylesheet' href='/stylesheets/blog.css'/>
+  </head>
+  <body>
+	<div id="page">
+    <header class="header">
+      <%- include('include/header') %>
+    </header> 
+    <div class="center">
+      <div class="content-wrap">
+        <article class="blog-article">
+          <header class="blog-article-header clearfix">
+            <h2><%= article.title %></h2>
+            <div class="blog-article-info">
+              <span><%= article.author %></span>
+              <span><%= article.dateString %></span>
+              <span>view: <%= article.view || 0 %></span>
+              <!-- <span><%= article.view %>浏览</span> -->
+            </div>
+          </header>
+          <div class="blog-article-abstract">
+            <span><%= article.abs %></span>
+          </div>
+          <div class="blog-article-content">
+            <span><%- article.content %></span>
+          </div>
+        </article>
+      </div>
+      <aside class="aside">
+        <%- include('widget/tocWidget', {toc: ''}) %>
+        <%- include('widget/topWidget') %>
+      </aside>
+    </div>
+    <footer class="footer">
+      <%- include('include/footer') %>
+    </footer>
+  </div>
+  </body>
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <script src="http://cdn.bootcss.com/highlight.js/8.0/highlight.min.js"></script>
+  <script src="/javascripts/index.js"></script>
+  <script src="/javascripts/blog.js"></script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+</html>

@@ -1,0 +1,51 @@
+<style>
+.widget-top {
+    display: none;
+    position: fixed;
+    right: 40px;
+    bottom: 40px;
+    width: 50px;
+    line-height: 50px;
+    background-color: rgb(241, 243, 108);
+    text-align: center;
+    border-radius: 50%;
+}
+.widget-top:hover {
+    animation-name: widget-top-animate; 
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: normal; 
+
+    cursor: pointer;
+}
+@keyframes widget-top-animate {
+    0%{transform: rotate(0deg);}
+    50%{transform: rotate(180deg);}
+    100%{transform: rotate(360deg);}
+}
+@media only screen and (max-width: 960px) {
+    .widget-top {
+        visibility: visible;
+        right: 20px;
+        bottom: 20px;
+    }
+}
+</style>
+<div class="widget-top">
+    <span>TOP</span>
+    <script>
+        window.addEventListener('load', function() {
+            $('.widget-top').on('click', function(){
+                $('html,body').animate({scrollTop: '0px'}, 800);
+            });
+            window.addEventListener('scroll', function() {
+                if ($(document).scrollTop()<=0){
+                    $('.widget-top').hide();
+                } else {
+                    $('.widget-top').show();
+                }
+            })
+        })
+    </script>
+</div>

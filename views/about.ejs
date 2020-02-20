@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>关于博主</title>
+    <link rel='stylesheet' href='/stylesheets/index.css'/>
+    <style>
+      .about-content-wrap{
+        width: 100%;
+      }
+      .about-article-header{
+        text-align: center;
+        color: gray;
+        margin: 10px 0px;
+      }
+      .about-article-content{
+        box-sizing: border-box;
+        padding: 20px;
+        font-size: 16px;
+        text-align: center;
+      }
+      .about-article-content p{
+        line-height: 30px;
+      }
+      .article:hover{
+        transform: unset;
+        box-shadow: unset;
+        cursor: default;
+      }
+    </style>
+  </head>
+  <body>
+	<div id="page">
+    <header class="header">
+      <%- include('include/header') %>
+    </header> 
+    <div class="center">
+      <div class="content-wrap about-content-wrap">
+        <article class="article">
+          <header class="article-header about-article-header">
+            <h2>关于博主</h2>
+          </header>
+          <div class="about-article-content">
+            <p>空腹猫</p>
+            <p>热爱编程和电子设计，码就完事了！！</p>
+          </div>
+        </article>
+      </div>
+    </div>
+    <footer class="footer">
+      <%- include('include/footer') %>
+    </footer>
+  </div>
+  </body>
+</html>

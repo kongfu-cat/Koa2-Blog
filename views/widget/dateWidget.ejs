@@ -1,0 +1,45 @@
+<style>
+  .widget-date {
+    overflow: hidden;
+  }
+
+  .date-item {
+    display: block;
+    width: 100%;
+    margin-bottom: 3px;
+    border-radius: 3px;
+    
+    cursor: pointer;
+    text-align: center;
+
+    color: white;
+    background-color: #4a4a4a;
+    
+    transition: transform 0.4s, background-color 0.2s;
+  }
+
+  .date-item:hover {
+    transition: transform 0.4s, background-color 0.2s;
+    background-color: yellowgreen;
+  }
+
+  .date-item a {
+    color: inherit;
+    font-size: 16px;
+  }
+</style>
+<div class="widget-wrap">
+  <div class="widget-header">
+    <span>归档日期</span>
+  </div>
+  <div class="widget-date">
+    <% for(let date of dates) { %>
+    <span class="date-item" data-id=<%= date.date %>><%= date.date %><span class="badge"><%= date.num %></span></span>
+    <% } %>
+  </div>
+  <script>
+    window.addEventListener('load', function () {
+      $('.widget-date').on('click', '.date-item', handleDateItemClick)
+    })
+  </script>
+</div>

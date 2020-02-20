@@ -1,0 +1,7 @@
+module.exports = {
+    auth: { "authSource": "xxx" }, // 验证用户权限的表
+    user: "xxx", // 用户名
+    pass: "xxx", // 用户密码
+    url: 'mongodb://localhost:xxx/xxx' // 数据库连接url：mongodb://hostname:port/文档名
+}
+}

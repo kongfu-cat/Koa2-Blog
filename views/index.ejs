@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>空腹猫博客</title>
+    <link rel='stylesheet' href='/stylesheets/index.css'/>
+    <link rel='stylesheet' href='/stylesheets/widget.css'/>
+  </head>
+  <body>
+	<div id="page">
+    <header class="header">
+      <%- include('include/header') %>
+    </header> 
+    <div class="center">
+      <div class="content-wrap card-wrap" id="articleWrap">
+      </div>
+      <aside class="aside">
+        <%- include('widget/tagWidget', {tags: tags}) %>
+        <%- include('widget/dateWidget', {dates: dates}) %>
+        <!-- 加入词云 -->
+        <%- include('widget/wordCloudWidget', {tags: tags}) %>
+      </aside>
+      <!-- <input type="button" class="load-more-btn" value="加载更多"/> -->
+    </div>
+    <footer class="footer">
+      <%- include('include/footer') %>
+    </footer>
+  </div>
+  <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+  <script src="/javascripts/index.js"></script>
+  <script>
+
+  var getBlog = null
+
+  $(function () {
+      $('.load-more-btn').on('click', handleLoadMoreWithLoading)
+      $('.content-wrap').on('click', '.article', function(e) {
+        $el = $(e.currentTarget);
+        $el.find('.article-header-a')[0].click()    
+      })
+      $('.content-wrap').on('mouseenter', '.article', function(e) {
+        $($(this).find('.article-header-border')[0]).css('width', '50%');
+        $($(this).find('.article-header-border')[0]).css('border-color', '#0073ff');
+      })
+      $('.content-wrap').on('mouseleave', '.article', function(e) {
+        $($(this).find('.article-header-border')[0]).css('width', '100%');
+        $($(this).find('.article-header-border')[0]).css('border-color', '#aaa');
+      })
+      getBlog = startPage('/blog/get-blog')
+      handleLoadMore()
+      bindScrollLoadMore()
+  })
+</script>
+</body>
+</html>

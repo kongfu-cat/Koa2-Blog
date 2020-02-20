@@ -1,0 +1,23 @@
+<div class="widget-wrap">
+    <div class="widget-header">
+        <span>词云</span>
+    </div>
+    <div class="widget-wordcloud">
+        <canvas id="my_canvas" style="display: inline-block;width: 100%;height: 100%;"></canvas>
+        <script src="/lib/wordcloud2.js"></script>
+        <script>
+            var list = [],
+                tags = <%- JSON.stringify(tags) %>;
+            for (i = 0; i < tags.length; i++) {
+                list.push([tags[i]._id, tags[i].num])
+            }
+            WordCloud(document.getElementById('my_canvas'), { 
+                list: list ,
+                shuffle: true,
+                rotateRatio: 0.1,
+                shape: 'square',
+                weightFactor: 5,
+            });
+        </script>
+    </div>
+</div>

@@ -1,0 +1,98 @@
+<style>
+.widget-tag {}
+
+.badge {
+    display: inline-block;
+
+    font-size: 12px;
+    
+    background-color: #fff;
+    color: #4a4a4a;
+
+    border-radius: 6px;
+    height: 12px;
+    padding: 1px 4px;
+    text-align: center;
+    line-height: 12px;
+    margin-left: 5px;
+}
+
+.tag-item {
+    display: inline-block;
+    line-height: 24px;
+    box-sizing: border-box;
+    padding: 0 5px 0 10px;
+    margin: 2px;
+    border-width: 0px;
+    color: white;
+    text-align: center;
+    background-color: #4a4a4a;
+    border-radius: 4px;
+    cursor: pointer;
+
+    transition: transform 0.4s, background-color 0.2s;
+}
+.tag-item:hover {
+    transition: transform 0.4s, background-color 0.2s;
+    background-color: yellowgreen;
+}
+
+.tag-item a {
+    color: inherit;
+    font-size: 16px;
+}
+</style>
+<div class="widget-wrap">
+    <div class="widget-header">
+        <span>技术标签</span>
+    </div>
+    <div class="widget-tag">
+        <% for(let tag of tags) { %>
+        <span class="tag-item" data-id=<%= tag._id %>><%= tag._id %><span class="badge"><%= tag.num %></span></span>
+        <% } %>
+    </div>
+    <script>
+        // 方块位置最小化布局算法
+        // 对tag的顺序进行调整，使最终显示顺序可以尽可能的填充容器
+        window.addEventListener('load', function() {
+            var tagsArr = $('.widget-tag').find('.tag-item');
+            var afterArr = [];
+            // width: HTMLElement.offsetWidth
+            var widgetWidth = $('.widget-tag').width();
+            // sort by tagItem's width asc
+            var tmp = null;
+            for (var i = 0; i < tagsArr.length - 1; i++) {
+                for (var j = i + 1; j < tagsArr.length; j++) {
+                    if (tagsArr[i].offsetWidth > tagsArr[j].offsetWidth) {
+                        tmp = tagsArr[i];
+                        tagsArr[i] = tagsArr[j];
+                        tagsArr[j] = tmp;
+                    }
+                }
+            }
+            while (tagsArr.length) {
+                var remainWidth = widgetWidth - tagsArr[0].offsetWidth;
+                afterArr.push(tagsArr[0]);
+                tagsArr.splice(0, 1);
+                while (remainWidth && tagsArr.length && (remainWidth > tagsArr[0].offsetWidth)) {
+                    for (var i = 1; i < tagsArr.length; i++){
+                        if (remainWidth < tagsArr[i].offsetWidth) {
+                            break;
+                        }
+                    }
+                    remainWidth -= tagsArr[i-1].offsetWidth;
+                    afterArr.push(tagsArr[i-1]);
+                    tagsArr.splice(i-1, 1);
+                }
+            }
+            $('.widget-tag').empty();
+            for (var i = 0; i < afterArr.length; i++) {
+                $('.widget-tag').append(afterArr[i]);
+            }
+
+
+            // 点击事件代理
+            $('.widget-tag').on('click', '.tag-item', handleTagItemClick)
+        })
+    </script>
+</div>

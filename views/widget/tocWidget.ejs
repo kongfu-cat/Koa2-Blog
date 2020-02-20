@@ -1,0 +1,211 @@
+<style>
+    .widget-toc ul {
+        list-style: none;
+        padding-left: 20px;
+    }
+
+    .widget-toc li {
+        padding-top: 8px;
+    }
+
+    .widget-toc a {
+        font-size: 12px;
+        line-height: 16px;
+        color: #000;
+    }
+
+    .widget-toc a:hover {
+        color: red;
+    }
+
+    .widget-toc ul>ul {
+        padding-left: 8px;
+    }
+
+    .widget-toc li .active {
+        position: relative;
+    }
+    .widget-toc li .active::before{
+        position: absolute;
+        top: -8px;
+        left: -100px;
+        background: orangered;
+        content: '';
+        display: block;
+        width: 400px;
+        height: 30px;
+        opacity: 0.5;
+    }
+    .widget-toc{
+        overflow-x: hidden;
+    }
+    .widget-toc-btn{
+        display: none;
+        position: fixed;
+        left: 0;
+        top: 50%;
+        width: 20px;
+        line-height: 50px;
+        background-color: rgb(241, 243, 108);
+        text-align: center;
+    }
+    @media only screen and (max-width: 960px) {
+        .aside {
+            position: fixed;
+            display: inline-block;
+            visibility: hidden;
+            width: 0;
+            height: 0;
+        }
+
+        .widget-toc {
+            display: none;
+            visibility: visible;
+
+            position: fixed;
+            left: 0;
+            top: 0;
+
+            height: 100%;
+            width: 50%;
+
+            background: beige;
+        }
+        .widget-toc-btn{
+            display: inline-block;
+            visibility: visible;
+        }
+    }
+</style>
+<div class="widget-wrap">
+    <div class="widget-header">
+        <span>文章目录</span>
+    </div>
+    <div class="widget-tag">
+        <div class="widget-toc">
+            <%- toc%>
+        </div>
+        <div class="widget-toc-btn"><span>☰</span></div>
+    </div>
+    <script>
+        function generateUUID() {
+            var d = new Date().getTime();
+            if (window.performance && typeof window.performance.now === "function") {
+                d += performance.now(); //use high-precision timer if available
+            }
+            var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+                var r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c == 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+            return uuid;
+        }
+
+        var hLevelMarker = [0, 0, 0, 0, 0, 0]
+        function findHeader(el, headerLevel, startLevel, endLevel, flag) {
+            if (headerLevel > endLevel) {
+                return
+            }
+            var ulList = '<ul>',
+                $hList = null
+
+            if (headerLevel === startLevel || flag) {
+                $hList = $(el).find('h' + headerLevel)
+
+                // 如果不存在顶层标签
+                if ($hList.length <= 0) {
+                    ulList += findHeader(el, headerLevel + 1, startLevel, endLevel, true) || ''
+                }
+            } else {
+                $hList = $(el).nextUntil('h' + (headerLevel - 1)).filter('h' + headerLevel)
+            }
+
+            // 如果缺少某一下级标签
+            if ($hList.length <= 0) {
+                ulList += findHeader(el, headerLevel + 1, startLevel, endLevel) || ''
+            }
+
+            $hList.each(function (index, item) {
+                var content = $(item).html() // 获取内容
+                hLevelMarker[headerLevel - 1] += 1
+                var navItemID = "nav" + hLevelMarker.join('')
+                $(item).attr("id", navItemID) // 为当前h标签设置id
+                $(item).addClass('widget-toc-item')
+                ulList += "<li><a href='#" + navItemID + "'>" + content + "</a></li>"
+                ulList += findHeader(item, headerLevel + 1, startLevel, endLevel) || ''
+            })
+            ulList += '</ul>'
+
+            // 移除多余的标签
+            if (ulList === '<ul></ul>') {
+                return
+            }
+            return ulList
+        }
+        window.addEventListener('load', function () {
+            let toc = findHeader('.blog-article-content span', 1, 1, 4)
+            $('.widget-toc').append(toc)
+
+            var beforeTocItem = null;
+            window.addEventListener('scroll', function() {
+                if ($(document).scrollTop() <= 120){
+                    $('.widget-wrap').css('position', 'relative');
+                } else {
+                    $('.widget-wrap').css('position', 'fixed');
+                    $('.widget-wrap').css('top', '0');
+                    $('.widget-wrap').css('width', $('.aside').width());
+                }
+
+                $('.widget-toc-item').each(function() {
+                    var pos = this.getBoundingClientRect();
+                    if (pos.top < 10) {
+                        if (beforeTocItem) {
+                            beforeTocItem.removeClass('active');
+                        }
+                        $el = $('a[href="#'+ $(this).attr('id') +'"]');
+                        $el.addClass('active');
+                        beforeTocItem = $el;
+                    }
+                })
+            })
+            // var startX;
+            // var startY;
+            // var pageEl = document.getElementById('page')
+            // pageEl.addEventListener("touchstart", handleTouchEvent, false);
+            // pageEl.addEventListener("touchend", handleTouchEvent, false);
+            // pageEl.addEventListener("touchmove", handleTouchEvent, false);
+            // function handleTouchEvent(event) {
+            //     switch (event.type){
+            //         case "touchstart":  
+            //             startX = event.touches[0].pageX;
+            //             startY = event.touches[0].pageY;
+            //             break;
+            //         case "touchend":
+            //             var spanX = event.changedTouches[0].pageX - startX;
+            //             var spanY = event.changedTouches[0].pageY - startY;
+            //             if(Math.abs(spanX) > Math.abs(spanY)){      //认定为水平方向滑动
+            //                 if(spanX > 30){         //向右
+            //                     $('.widget-toc').show()
+            //                 }
+            //             } 
+            //             break;
+            //         case "touchmove":
+            //             //阻止默认行为
+            //             if(isPreventDefault)
+            //                 event.preventDefault();
+            //             break;
+            //     }
+            // }
+            $('.widget-toc-btn').on('click', function(e) {
+                e.stopPropagation()
+                $('.widget-toc').show()
+                $('.widget-toc-btn').hide()
+            })
+            $('.content-wrap').on('touchend', function(e){
+                e.stopPropagation()
+                $('.widget-toc').hide()
+                $('.widget-toc-btn').show()
+            });
+        })
+    </script>
+</div>
