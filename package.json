@@ -31,7 +31,7 @@
     "koa-views": "^6.2.0",
     "koa-favicon": "^2.0.1",
     "moment": "^2.24.0",
-    "codemirror": "^5.49.2"
+    "codemirror": "^5.58.2"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
